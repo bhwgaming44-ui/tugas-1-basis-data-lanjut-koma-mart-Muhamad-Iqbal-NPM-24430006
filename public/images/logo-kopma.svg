@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="kopmaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#991b1b"/>
+      <stop offset="45%" stop-color="#c8102e"/>
+      <stop offset="100%" stop-color="#ef4444"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#450a0a" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Background Badge -->
+  <rect x="4" y="4" width="112" height="112" rx="26" fill="url(#kopmaGrad)" filter="url(#shadow)"/>
+  <rect x="6" y="6" width="108" height="108" rx="24" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2"/>
+
+  <!-- Subtle Storefront / Cart Roof Accent -->
+  <path d="M 30 38 Q 60 26 90 38 L 86 44 Q 60 34 34 44 Z" fill="url(#goldGrad)" opacity="0.95"/>
+
+  <!-- Intertwined KM Monogram -->
+  <g fill="#ffffff">
+    <!-- Letter K -->
+    <path d="M 28 42 L 39 42 L 39 88 L 28 88 Z"/>
+    <path d="M 39 65 L 56 42 L 69 42 L 48 70 L 40 65 Z"/>
+    <path d="M 45 67 L 70 88 L 56 88 L 38 72 Z"/>
+
+    <!-- Letter M -->
+    <path d="M 64 42 L 74 42 L 80 66 L 86 42 L 96 42 L 96 88 L 86 88 L 86 58 L 82 74 L 78 74 L 74 58 L 74 88 L 64 88 Z"/>
+  </g>
+
+  <!-- Star / Spark Accent -->
+  <path d="M 94 28 Q 94 34 100 34 Q 94 34 94 40 Q 94 34 88 34 Q 94 34 94 28 Z" fill="url(#goldGrad)"/>
+</svg>

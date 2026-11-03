@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0f172a">
+<title>Balap Rider - Kamen Rider W</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:#000;font-family:'Plus Jakarta Sans',Arial,sans-serif;touch-action:none;user-select:none}
+#wrap{position:fixed;inset:0;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform:translate(-50%,-50%);transform-origin:center center}
+canvas#game{display:block;width:1920px;height:1080px}
+.ui{position:absolute;color:#fff;width:1920px;text-align:center}
+#hud{top:34px;display:flex;justify-content:space-between;padding:0 56px;width:1920px}
+.badge{background:linear-gradient(135deg,rgba(24,24,32,.92),rgba(40,10,10,.92));padding:14px 30px;border-radius:40px;border:3px solid #f59e0b;font-weight:900;font-size:34px;letter-spacing:1px;text-shadow:0 3px 10px rgba(0,0,0,.7);box-shadow:0 6px 22px rgba(0,0,0,.4)}
+.badge span{color:#f59e0b}
+#coinBadge{background:linear-gradient(135deg,rgba(245,158,11,.95),rgba(180,83,9,.95));color:#1a1205;border-color:#fff}
+#coinBadge span{color:#1a1205}
+#musicBtn{position:absolute;right:56px;bottom:120px;background:rgba(24,24,32,.9);color:#94a3b8;border:3px solid #475569;padding:14px 26px;border-radius:40px;font-size:26px;font-weight:900;cursor:pointer;font-family:inherit;letter-spacing:1px}
+#musicBtn.on{color:#0f1a0f;background:linear-gradient(135deg,#3fbf4a,#2a8a32);border-color:#fff;box-shadow:0 0 26px rgba(63,191,74,.7)}
+#center{top:50%;left:50%;transform:translate(-50%,-50%);width:1040px}
+.card{background:rgba(12,14,20,.95);border:4px solid #b71c1c;border-radius:32px;padding:64px 56px;box-shadow:0 24px 80px rgba(0,0,0,.6),0 0 60px rgba(183,28,28,.25)}
+.card h1{font-size:104px;color:#fff;margin-bottom:10px;letter-spacing:-3px;line-height:.92;font-weight:900}
+.card h1 span{color:#f59e0b}
+.card .w{color:#3fbf4a;text-shadow:0 0 26px rgba(63,191,74,.6)}
+.card p{color:#cbd5e1;font-size:32px;margin-bottom:38px;line-height:1.5}
+.btn{display:inline-block;background:linear-gradient(135deg,#e53935,#7f0000);color:#fff;border:none;padding:26px 66px;font-size:40px;font-weight:900;border-radius:70px;cursor:pointer;box-shadow:0 12px 34px rgba(183,28,28,.55);margin:10px;font-family:inherit}
+.btn:active{transform:scale(.96)}
+.btn.gold{background:linear-gradient(135deg,#f59e0b,#b45309)}
+.legend{display:flex;justify-content:center;gap:40px;margin-top:28px;flex-wrap:wrap;font-size:28px;color:#94a3b8}
+.legend b{color:#fff}
+#over{display:none}
+.score-big{font-size:150px;color:#f59e0b;font-weight:900;margin:6px 0;line-height:1;text-shadow:0 6px 30px rgba(245,158,11,.4)}
+#rotate{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;flex-direction:column;gap:26px;color:#fff;z-index:99;text-align:center;padding:0 30px}
+#rotate .ic{font-size:90px;animation:spin 2s linear infinite}
+#rotate h2{font-size:46px;font-weight:900}
+#rotate p{font-size:28px;color:#94a3b8}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<div id="wrap">
+ <div id="stage">
+  <canvas id="game" width="1920" height="1080"></canvas>
+  <div id="hud" class="ui">
+    <div class="badge">JARAK <span id="score">0</span> m</div>
+    <div class="badge" id="coinBadge">SEMBAKO <span id="coin">0</span></div>
+  </div>
+  <div id="center" class="ui">
+    <div id="menu" class="card">
+      <h1>BALAP <span>RIDER</span></h1>
+      <p>Kamen Rider <b class="w">W</b> lepas ke jalan tanah!<br>Hindari polisi &amp; truk, kumpulin sembako.</p>
+      <button class="btn" id="startBtn">MULAI BALAP</button>
+      <div class="legend">
+        <span><b>Tap / Spasi</b> = Lompat</span>
+        <span><b>Tahan &darr;</b> = Jungkir</span>
+        <span><b>&#9835;</b> = Nyalakan Musik</span>
+      </div>
+    </div>
+    <div id="over" class="card">
+      <h1>KEJEPIT <span>POLISI!</span></h1>
+      <div class="score-big"><span id="finalScore">0</span> m</div>
+      <p>Sembako terkumpul: <b style="color:#f59e0b"><span id="finalCoin">0</span></b></p>
+      <button class="btn gold" id="againBtn">BALAP LAGI</button>
+      <button class="btn" onclick="location.href='/'">Beranda KOPMA</button>
+    </div>
+  </div>
+  <button id="musicBtn">&#9834; MUSIK OFF</button>
+ </div>
+</div>
+<div id="rotate"><div class="ic">&#8635;</div><h2>Putar HP ke Landscape</h2><p>Untuk pengalaman main terbaik</p></div>
+<script src="/game-balap-sarung.js"></script>
+</body>
+</html>

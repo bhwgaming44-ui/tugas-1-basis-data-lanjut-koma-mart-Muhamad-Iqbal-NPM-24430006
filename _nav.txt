@@ -1,0 +1,52 @@
+  62: // ===== APLIKASI KURIR: antar produk ke rumah user (khusus akun MITRA) =====
+  63: Route::middleware('mitra.auth')->group(function () {
+  64:     Route::get('/kurir', [BelanjaController::class, 'kurir'])->name('kurir.index');
+  65:     // Mitra mengambil pesanan dari pool (model Gojek) -> pesanan jadi miliknya.
+  66:     Route::post('/kurir/{id}/ambil', [BelanjaController::class, 'kurirAmbil'])->name('kurir.ambil');
+  67:     Route::post('/kurir/{id}/status', [BelanjaController::class, 'kurirUpdate'])->name('kurir.update');
+  68: });
+  69: 
+  70: // ===== KOPMA POINT: top up saldo member untuk belanja online =====
+  71: Route::get('/kopma-point', [KopmaPointController::class, 'index'])->name('kopma.point.index');
+  72: Route::post('/kopma-point/topup', [KopmaPointController::class, 'topup'])->name('kopma.point.topup');
+  73: 
+  74: // ===== TOP UP DENGAN GERBANG PEMBAYARAN (sisi USER) =====
+  75: // User mengajukan -> bayar (QRIS dinamis/transfer/tunai) -> konfirmasi -> petugas verifikasi.
+  76: Route::post('/kopma-point/topup/ajukan', [TopupController::class, 'ajukan'])->name('topup.ajukan');
+  77: Route::get('/kopma-point/topup/{kode}/bayar', [TopupController::class, 'bayar'])->name('topup.bayar');
+  78: Route::post('/kopma-point/topup/{kode}/konfirmasi', [TopupController::class, 'konfirmasiBayar'])->name('topup.konfirmasi');
+  79: Route::get('/kopma-point/topup/{kode}/status', [TopupController::class, 'status'])->name('topup.status');
+  80: 
+  81: // ===== CHAT USER <-> KURIR (polling, tanpa WebSocket) =====
+  82: Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+  83: Route::post('/chat/kirim', [ChatController::class, 'kirimUser'])->name('chat.kirim');
+  84: Route::get('/chat/pesan', [ChatController::class, 'pesan'])->name('chat.pesan');
+  85: 
+  86: // Chatbot KOPMA MART (AI jika OPENAI_API_KEY di-set, fallback database)
+  87: Route::post('/chatbot/ask', [ChatbotController::class, 'ask'])
+  88:     ->middleware('throttle:30,1')
+  89:     ->name('chatbot.ask');
+  90: 
+  91: // Chatbot: muat LIST BARANG (katalog) + kategori saat panel chat dibuka
+  92: Route::get('/chatbot/katalog', [ChatbotController::class, 'katalog'])
+  93:     ->middleware('throttle:60,1')
+  94:     ->name('chatbot.katalog');
+  95: 
+  96: // Struk PDF (publik) — hasil belanja via chatbot, siap Cetak / Simpan PDF
+  97: Route::get('/struk/pdf/{id}', [KasirController::class, 'strukPdf'])->name('kasir.struk.pdf');
+  98: 
+  99: // Modul 1: Manajemen Member / Pelanggan
+ 100: Route::resource('anggota', AnggotaController::class)->only(['index', 'store']);
+ 101: 
+ 102: // ===== AREA PETUGAS / KASIR (butuh login password) =====
+ 103: Route::get('/kasir/login', [AuthController::class, 'showLogin'])->name('kasir.login');
+ 104: Route::post('/kasir/login', [AuthController::class, 'login'])->name('kasir.login.post');
+ 105: Route::post('/kasir/logout', [AuthController::class, 'logout'])->name('kasir.logout');
+ 106: 
+ 107: Route::middleware('kasir.auth')->group(function () {
+ 108:     // Dashboard ringkas khusus Petugas (statistik internal, tidak untuk pembeli)
+ 109:     Route::get('/petugas/dashboard', [DashboardController::class, 'petugas'])->name('petugas.dashboard');
+ 110: 
+ 111:     // Modul 2: Kasir / Point of Sale (POS)
+ 112:     Route::get('/kasir', [KasirController::class, 'index'])->name('kasir.index');
+ 113:     Route::post('/kasir/checkout', [KasirController::class, 'checkout'])->name('kasir.checkout');
